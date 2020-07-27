@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class UserController {
     @Autowired
-    UserService userService;
+  private   UserService userService;
 
 
     @GetMapping(value = "/demo")

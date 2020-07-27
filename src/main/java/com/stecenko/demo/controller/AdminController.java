@@ -18,13 +18,11 @@ import java.util.Set;
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
-    UserService userService;
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private UserService userService;
 
     @PostMapping("/add")
     public String add(User user, Model model, String newRoles) {
-        user.setRoles(magic(newRoles));
+        user.setRoles(RolesArrayToRolesSet(newRoles));
         userService.save(user);
         return "redirect:/admin/list";
     }
@@ -59,12 +57,12 @@ public class AdminController {
 
     @PostMapping("/edit")
     public String edit(Model model, User user, String newRoles) {
-        user.setRoles(magic(newRoles));
+        user.setRoles(RolesArrayToRolesSet(newRoles));
         userService.edit(user.getId(), user);
         return "redirect:/admin/list";
     }
 
-    public Set<Role> magic(String roles) {
+    private Set<Role> RolesArrayToRolesSet(String roles) {
         Set<Role> answer = new HashSet<>();
         for (String s : roles.split(",")) {
             answer.add(new Role(s));
